@@ -9,24 +9,24 @@
 typedef struct nodeType##list { \
     struct nodeType * head; \
     struct nodeType * tail; \
-    unit_32 size; \
-} nodeType##list;
+    uint32_t size;\
+} nodeType##_list_t;
 
 
-#define DEFINE_LINK( nodeType ) \
-struct nodeType * next##nodeType;
+#define DEFINE_LINK(nodeType) \
+struct nodeType * next##nodeType; \
 struct nodeType * prev##nodeType;
 
 
 #define INITIALISE_LIST( list ) \
-list.head = list.tail = (void *) 0; \
-list.size = 0;
+    list.head = list.tail = (void *) 0; \
+    list.size = 0;
 
 
 #define IMPLEMENT_LIST( nodeType ) \
 void append_##nodeType##_list( nodeType##_list_t * list, struct nodeType * node ){ \
     list->tail->next##nodeType = node; \
-    list->prev##nodeType = list->tail; \
+    node->prev##nodeType = list->tail; \
     list->tail = node; \
     node->next##nodeType = NULL; \
     list->size += 1; \
@@ -34,8 +34,8 @@ void append_##nodeType##_list( nodeType##_list_t * list, struct nodeType * node 
 \
 \
 void push_##nodeType##_list( nodeType##_list_t * list, struct nodeType * node){ \
-    node->next##nodeType## = list->head; \
-    node->prev##nodeType## = NULL; \
+    node->next##nodeType = list->head; \
+    node->prev##nodeType = NULL; \
     list->head = node; \
     list->size +=1; \
 } \
@@ -61,7 +61,7 @@ uint32_t size_##nodeType##_list( nodeType##_list_t * list ){ \
 \
 \
 struct nodeType * next_##nodeType##_list( struct nodeType * node ){ \
-    return node->next; \
+    return node->next##nodeType; \
 }
 
 
